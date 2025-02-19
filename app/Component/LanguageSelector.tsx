@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 
 export default function LanguageSelector({ defaultLanguage }: { defaultLanguage: "ko" | "en" }) {
   const language = defaultLanguage;
