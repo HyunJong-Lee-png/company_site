@@ -2,9 +2,7 @@
 import Image from 'next/image';
 import { cookies } from 'next/headers';
 
-
 type Language = "en" | "ko"
-
 
 const translations = {
   ko: {

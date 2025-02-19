@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 
 export default function LanguageSelector({ defaultLanguage }: { defaultLanguage: "ko" | "en" }) {
-  const [language, setLanguage] = useState(defaultLanguage);
+  const language = defaultLanguage;
   const [isPending, startTransition] = useTransition();
 
   async function changeLanguage(lang: "ko" | "en") {
