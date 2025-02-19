@@ -1,0 +1,90 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Company</title>
+    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.11/dist/umd/i18next.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <script src="script.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <header class="bg-blue-600 p-4 text-white">
+        <nav class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="logo.png" alt="Test Company Logo" class="h-10">
+                <span class="text-lg font-bold">Test Company</span>
+            </div>
+            <ul class="flex space-x-4">
+                <li><a href="#about" class="hover:underline">회사 소개</a></li>
+                <li><a href="#business" class="hover:underline">회사 사업</a></li>
+                <li><a href="#contact" class="hover:underline">CONTACT</a></li>
+            </ul>
+            <select id="language-switcher" class="bg-white text-black px-2 py-1 rounded">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+            </select>
+        </nav>
+    </header>
+    
+    <section id="about" class="container mx-auto my-10 p-6 bg-white rounded shadow">
+        <h2 data-i18n="about.title" class="text-xl font-bold">회사 소개</h2>
+        <p data-i18n="about.description" class="mt-2">회사에 대한 소개 내용을 여기에 입력하세요.</p>
+    </section>
+    
+    <section id="business" class="container mx-auto my-10 p-6 bg-white rounded shadow">
+        <h2 data-i18n="business.title" class="text-xl font-bold">회사 사업</h2>
+        <p data-i18n="business.description" class="mt-2">회사의 주요 사업을 설명하는 내용을 여기에 입력하세요.</p>
+    </section>
+    
+    <section id="contact" class="container mx-auto my-10 p-6 bg-white rounded shadow">
+        <h2 data-i18n="contact.title" class="text-xl font-bold">CONTACT</h2>
+        <p data-i18n="contact.description" class="mt-2">회사 연락처 정보를 입력하세요.</p>
+        <div id="map" class="w-full h-96 mt-4"></div>
+    </section>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const resources = {
+                en: {
+                    translation: {
+                        about: { title: "About Us", description: "Enter company introduction here." },
+                        business: { title: "Business", description: "Describe main business activities here." },
+                        contact: { title: "Contact", description: "Enter company contact details here." }
+                    }
+                },
+                ko: {
+                    translation: {
+                        about: { title: "회사 소개", description: "회사에 대한 소개 내용을 여기에 입력하세요." },
+                        business: { title: "회사 사업", description: "회사의 주요 사업을 설명하는 내용을 여기에 입력하세요." },
+                        contact: { title: "CONTACT", description: "회사 연락처 정보를 입력하세요." }
+                    }
+                }
+            };
+
+            i18next.init({ lng: "ko", debug: true, resources }, function(err, t) {
+                updateContent();
+            });
+
+            function updateContent() {
+                document.querySelectorAll("[data-i18n]").forEach(element => {
+                    element.innerHTML = i18next.t(element.getAttribute("data-i18n"));
+                });
+            }
+
+            document.getElementById("language-switcher").addEventListener("change", function() {
+                i18next.changeLanguage(this.value, updateContent);
+            });
+        });
+
+        function initMap() {
+            var location = { lat: 37.5665, lng: 126.9780 };
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 14,
+                center: location
+            });
+            new google.maps.Marker({ position: location, map: map });
+        }
+    </script>
+</body>
+</html>
