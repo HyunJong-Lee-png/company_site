@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
+import { Suspense } from 'react';
+import AnimatedServicesSections from '../Component/AnimatedServicesSections';
 
 const translations = {
   ko: {
@@ -14,7 +14,7 @@ const translations = {
     services: {
       'liner-agent': {
         title: '정기선대리점서비스',
-        description: '한국에서 가장 오래된 Liner Agent 중 하나인 동주마리타임은 최적의 해운 서비스를 제공합니다.',
+        description: '한국에서 가장 오래된 Liner Agent 중 하나인 현종컴퍼니는 최적의 해운 서비스를 제공합니다.',
         serviceTitle: 'Liner Agent Service',
         image: '/ship.jpg',
         serviceList: [
@@ -70,7 +70,7 @@ const translations = {
     services: {
       'liner-agent': {
         title: 'Liner Agent Service',
-        description: 'Dongju Maritime, one of the oldest Liner Agents in Korea, provides optimal shipping services.',
+        description: 'HyunJong Company, one of the oldest Liner Agents in Korea, provides optimal shipping services.',
         serviceTitle: 'Liner Agent Service',
         image: '/ship.jpg',
         serviceList: [
@@ -117,7 +117,6 @@ const translations = {
   }
 };
 
-
 export default async function Business({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const cookieStore = await cookies();
   const language = (cookieStore.get('language')?.value || 'ko') as 'ko';
@@ -127,40 +126,9 @@ export default async function Business({ searchParams }: { searchParams: Promise
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="relative w-full h-64 bg-cover bg-center flex justify-center items-center px-6" style={{ backgroundImage: "url('/ship2.jpg')", backgroundSize: 'contain' }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-white text-4xl font-bold">{t.title}</h1>
-        </div>
-      </header>
-
-      {/* Category Navigation */}
-      <nav className="max-w-6xl mx-auto flex justify-center space-x-8 my-8">
-        {t.categories.map((cat) => (
-          <Link key={cat.key} href={`?category=${cat.key}`} className={`text-lg ${categoryKey === cat.key ? 'text-blue-600 font-semibold' : 'text-gray-400'}`}>{cat.name}</Link>
-        ))}
-      </nav>
-
-      {/* Service Section */}
-      <section className="max-w-6xl mx-auto py-16 px-6">
-        <h2 className="text-3xl font-bold text-center mb-8">{selectedCategory.title}</h2>
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="md:w-1/2">
-            <Image src={selectedCategory.image} width={600} height={400} alt={selectedCategory.title} className="rounded-lg shadow-md" />
-          </div>
-          <div className="md:w-1/2">
-            <h3 className="text-xl font-semibold text-red-600 mb-4">{selectedCategory.serviceTitle}</h3>
-            <p className="text-gray-700 mb-4">{selectedCategory.description}</p>
-            <ul className="list-disc list-inside text-gray-700 space-y-2">
-              {selectedCategory.serviceList.map((item, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="text-red-500 mr-2">✔</span> {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <Suspense fallback={<div>loading...</div>}>
+        <AnimatedServicesSections selectedCategory={selectedCategory} title={t.title} categories={t.categories} />
+      </Suspense>
     </div>
   );
 }

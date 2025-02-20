@@ -4,6 +4,8 @@ import Link from "next/link";
 import LanguageSelector from "./Component/LanguageSelector";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import HomepageLink from "./Component/HomepageLink";
 
 
 
@@ -24,18 +26,20 @@ export default async function RootLayout({
       <body
       >
         {/* Navigation */}
-        <nav className="bg-white shadow-md py-4 px-10 text-center flex items-center justify-between ">
-          <Image src="/logo.png" alt="logo" width={150} height={200} className="object-cover" />
-          <ul className="flex justify-center space-x-6">
-            <li><Link href="/about" className="text-blue-600 hover:underline">회사소개</Link></li>
-            <li><Link href="/services" className="text-blue-600 hover:underline">사업분야</Link></li>
-            <li><Link href="/support" className="text-blue-600 hover:underline">고객지원</Link></li>
-            <li><Link href="/sitemap" className="text-blue-600 hover:underline">사이트 맵</Link></li>
-          </ul>
-          <LanguageSelector defaultLanguage={language} />
+        <nav className="bg-white shadow-md py-4 px-10 text-center flex items-center justify-between">
+          <HomepageLink />
+          <div className="flex items-center gap-8">
+            <ul className="flex justify-center space-x-6">
+              <li><Link href="/about" className="text-gray-800 hover:underline">회사소개</Link></li>
+              <li><Link href="/services" className="text-gray-800 hover:underline">사업분야</Link></li>
+              <li><Link href="/support" className="text-gray-800 hover:underline">고객지원</Link></li>
+              <li><Link href="/sitemap" className="text-gray-800 hover:underline">사이트 맵</Link></li>
+            </ul>
+            <LanguageSelector defaultLanguage={language} />
+          </div>
         </nav>
         {children}
       </body>
-    </html>
+    </html >
   );
 }
