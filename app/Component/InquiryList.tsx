@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 interface Props {
   inquiries: {
-    id: any;
+    id: string;
     title: string;
     is_private: boolean;
     created_at: Date;
@@ -17,7 +17,7 @@ interface Props {
 export default function InquiryList({ inquiries }: Props) {
   const router = useRouter();
 
-  const handleClick = async (isPrivate: boolean, id: any) => {
+  const handleClick = async (isPrivate: boolean, id: string) => {
     if (isPrivate) {
       const password = window.prompt("비밀번호를 입력하세요.");
       if (!password) return;

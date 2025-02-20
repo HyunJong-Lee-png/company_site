@@ -3,7 +3,7 @@ import { supabase } from '@/supabaseClient';
 export default async function InquiryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  let { data: inquiry, error } = await supabase
+  const { data: inquiry, error } = await supabase
     .from("inquiries")
     .select("*")
     .eq("id", id)
