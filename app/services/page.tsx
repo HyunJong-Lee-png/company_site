@@ -118,11 +118,11 @@ const translations = {
 };
 
 
-export default async function Business({ searchParams }: { searchParams: Record<string, string | undefined> }) {
+export default async function Business({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const cookieStore = await cookies();
   const language = (cookieStore.get('language')?.value || 'ko') as 'ko';
   const t = translations[language];
-  const categoryKey = ((await searchParams.category) || 'liner-agent') as 'liner-agent' | 'ship-agent' | 'logistics' | 'real-estate';
+  const categoryKey = ((await searchParams).category || 'liner-agent') as 'liner-agent' | 'ship-agent' | 'logistics' | 'real-estate';
   const selectedCategory = t.services[categoryKey];
 
   return (
