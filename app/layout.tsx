@@ -3,8 +3,6 @@ import "./globals.css";
 import Link from "next/link";
 import LanguageSelector from "./Component/LanguageSelector";
 import { cookies } from "next/headers";
-import Image from "next/image";
-import { redirect } from "next/navigation";
 import HomepageLink from "./Component/HomepageLink";
 
 
