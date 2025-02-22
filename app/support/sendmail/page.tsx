@@ -11,6 +11,7 @@ export default function SendMail() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus("loading");
