@@ -1,23 +1,22 @@
 'use client'
-
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { Fragment } from "react";
+import Link from "next/link";
+import AboutSection from "./AboutSection";
+import HistorySection from "./HistorySection";
+import TeamSection from "./TeamSection";
 
 interface Props {
-  t: {
-    title: string;
-    about: string;
-    sections: {
-      key: string
-      intro1: string;
-      intro2: string;
-      description: string;
-    }[];
-  }
+  title: string,
+  categories: {
+    name: string
+    key: string
+  }[],
+  selectedCategory: string,
+  language: 'ko' | 'en'
 }
 
-export default function AnumatedAboutSections({ t }: Props) {
+export default function AnimatedAboutSections({ title, categories, selectedCategory, language }: Props) {
+
   return (
     <>
       {/* Header */}
@@ -37,41 +36,23 @@ export default function AnumatedAboutSections({ t }: Props) {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
-          >{t.title}</motion.h1>
+          >{title}</motion.h1>
         </div>
       </motion.header>
 
-      {/* About Section */}
-      <section className="max-w-6xl mx-auto py-16 px-6 mt-[92px]">
-        <motion.h2
-          className="text-3xl font-bold text-center mb-20 text-gray-500"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: [0.9, 1.1, 1] }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >{t.about}</motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {t.sections.map(section => (
-            <Fragment key={section.key}>
-              <motion.div
-                initial={{ opacity: 0, scaleX: 0 }}
-                whileInView={{ opacity: 1, scaleX: 1, transformOrigin: 'left center' }}
-                transition={{ duration: 0.5 }}
-              >
-                <Image src="/ship.jpg" width={600} height={400} alt="Shipping" className="rounded-lg shadow-md" />
-              </motion.div>
-              <motion.div
-                className=" text-yellow-600 place-self-center"
-                initial={{ opacity: 0, scaleX: 0 }}
-                whileInView={{ opacity: 1, scaleX: 1, transformOrigin: 'right center' }}
-                transition={{ duration: 0.5 }}
-              >
-                <p className="text-lg font-semibold">{section.intro1}</p>
-                <p className="text-lg font-semibold">{section.intro2}</p>
-                <p className="text-gray-700 mt-4">{section.description}</p>
-              </motion.div>
-            </Fragment>))}
-        </div>
-      </section>
+      {/* Category Navigation */}
+      <nav className="max-w-6xl mx-auto flex justify-center space-x-8 my-8">
+        {categories?.map(cat => (
+          <Link key={cat.key} scroll={false} href={`?category=${cat.key}`} className={`text-lg ${selectedCategory === cat.key ? 'text-blue-600 font-semibold' : 'text-gray-400'}`}>{cat.name}</Link>
+        ))}
+      </nav>
+
+      {/* Category Sections */}
+      {selectedCategory === 'about'
+        ? <AboutSection language={language} />
+        : selectedCategory === 'history'
+          ? <HistorySection language={language} />
+          : <TeamSection />}
     </>
   );
 }

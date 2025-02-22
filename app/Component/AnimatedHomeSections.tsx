@@ -15,8 +15,6 @@ interface Props {
 
 export default function AnimatedSections({ title, sections }: Props) {
 
-
-
   return (
     <>
       {/* Header */}

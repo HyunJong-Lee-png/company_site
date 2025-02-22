@@ -1,9 +1,10 @@
 "use client";
-import { verifyPassword } from "@/serverAction/verifyPassword";
 import { supabase } from "@/supabaseClient";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { verifyPasswordServer } from "@/serverAction/verifyPasswordServer";
+import { verifyPasswordClient } from "@/utilities/verifyPasswordClient";
 
 interface Props {
   inquiries: {
@@ -19,23 +20,16 @@ export default function InquiryList({ inquiries }: Props) {
 
   const handleClick = async (isPrivate: boolean, id: string) => {
     if (isPrivate) {
-      const password = window.prompt("비밀번호를 입력하세요.");
-      if (!password) return;
-      const { data } = await supabase
-        .from("inquiries")
-        .select("password_hash")
-        .eq("id", id)
-        .single();
-      if (data) {
-        const res = await verifyPassword(password, data.password_hash, id);
-        if (!res.success) {
-          alert("비밀번호가 틀렸습니다.");
-          return;
-        }
+      const success = await verifyPasswordClient(id);
+      if (success) {
+        router.push(`/support/${id}`);
       }
+    } else {
+      router.push(`/support/${id}`);
     }
-    router.push(`/support/${id}`);
   };
+
+
 
   return (
     <motion.div
