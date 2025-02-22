@@ -1,12 +1,10 @@
 "use client";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 export default function SendMail() {
   const [formData, setFormData] = useState({ title: "", message: "", contact: "" });
   const [status, setStatus] = useState("");
-  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

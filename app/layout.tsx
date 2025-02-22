@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Link from "next/link";
-import LanguageSelector from "./Component/LanguageSelector";
 import { cookies } from "next/headers";
-import HomepageLink from "./Component/HomepageLink";
 import NavBar from "./Component/NavBar";
 import Footer from "./Component/Footer";
-
-
 
 export const metadata: Metadata = {
   title: "현종선박임대.",
