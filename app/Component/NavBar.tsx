@@ -34,6 +34,13 @@ const translations = {
         { name: "Q&A", link: "/support/sendmail" },
       ],
     },
+    {
+      name: "사이트맵",
+      key: 'sitemap',
+      items: [
+        { name: '오시는 길', link: '/sitemap' }
+      ],
+    }
   ],
   en: [
     {
@@ -64,6 +71,13 @@ const translations = {
         { name: "Q&A", link: "/support/sendmail" },
       ],
     },
+    {
+      name: "Site Map",
+      key: 'sitemap',
+      items: [
+        { name: 'Find Us', link: '/sitemap' }
+      ],
+    }
   ],
 }
 
@@ -75,7 +89,6 @@ export default async function NavBar({ defaultLanguage }: { defaultLanguage: "ko
   const language = (cookieStore.get('langauge')?.value || 'ko') as 'ko' | 'en';
   const t = translations[language];
   const isAdmin = cookieStore.get('admin')?.value === 'true'
-  console.log(cookieStore.get('admin')?.value, '제발낄낄')
 
   return (
     <nav className="relative bg-white shadow-md py-4 px-10 text-center flex items-center justify-between">

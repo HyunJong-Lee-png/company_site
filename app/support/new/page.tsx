@@ -2,7 +2,7 @@
 import { FormEvent, useState } from "react";
 import { supabase } from "@/supabaseClient";
 import { useRouter } from "next/navigation";
-import bcrypt from "bcryptjs";
+import makePassword from "@/serverAction/makePassword";
 
 export default function NewInquiryPage() {
   const [title, setTitle] = useState("");
@@ -14,7 +14,7 @@ export default function NewInquiryPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { hashedPassword } = await makePassword(password);
 
     const { error } = await supabase.from("inquiries").insert(
       {
@@ -36,9 +36,9 @@ export default function NewInquiryPage() {
   return (
     <form onSubmit={handleSubmit} className="p-6 text-black">
       <h1 className="text-2xl font-bold text-white">문의하기</h1>
-      <input className="border p-2 w-full mt-2" placeholder="제목" value={title} onChange={(e) => setTitle(e.target.value)} />
-      <textarea className="border p-2 w-full mt-2" placeholder="내용" value={content} onChange={(e) => setContent(e.target.value)} />
-      <input className="border p-2 w-full mt-2" type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input className="border p-2 w-full mt-2" placeholder="제목" value={title} onChange={(e) => setTitle(e.target.value)} required />
+      <textarea className="border p-2 w-full mt-2" placeholder="내용" value={content} onChange={(e) => setContent(e.target.value)} required />
+      <input className="border p-2 w-full mt-2" type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required />
       <label className="flex items-center mt-2">
         <input type="checkbox" checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} />
         <span className="ml-2">비공개 문의</span>

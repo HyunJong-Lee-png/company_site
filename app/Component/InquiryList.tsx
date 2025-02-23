@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { verifyPasswordClient } from "@/utilities/verifyPasswordClient";
+import { Fragment } from "react";
 
 interface Props {
   inquiries: {
@@ -11,9 +12,11 @@ interface Props {
     is_private: boolean;
     created_at: Date;
   }[];
+  totalPage: number | null;
+  currentPage: number
 }
 
-export default function InquiryList({ inquiries }: Props) {
+export default function InquiryList({ inquiries, totalPage, currentPage }: Props) {
   const router = useRouter();
 
   const handleClick = async (isPrivate: boolean, id: string) => {
@@ -111,7 +114,7 @@ export default function InquiryList({ inquiries }: Props) {
       >
         <Link
           href="/support/new"
-          className="inline-block text-blue-500 underline text-lg font-semibold"
+          className="text-blue-500 underline text-lg font-semibold"
         >
           <motion.div
             whileHover={{ scale: 1.1, color: "#1d4ed8" }}
@@ -120,6 +123,23 @@ export default function InquiryList({ inquiries }: Props) {
           </motion.div>
         </Link>
       </motion.div>
+
+      {/* 총 페이지 */}
+      <div className="mt-5 text-black  flex justify-center flex-nowrap gap-5">
+        {Array(totalPage).fill(null).map((_, index) =>
+        (<Fragment key={index}>
+          <Link
+            href={`/support/list/${index + 1}`}
+            className={`${currentPage === index + 1 ? "pointer-events-none text-gray-400" : ''} hover:text-blue-500`}
+          >
+            {index + 1}
+          </Link>
+          {totalPage === index + 1 ? '' : '/'}
+        </Fragment>))
+        }
+      </div>
+
+
     </motion.div>
   );
 }
